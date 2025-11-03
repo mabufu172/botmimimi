@@ -1,7 +1,7 @@
 {
     "name": "botmimimi",
     "main": "index.js",
-    "author": "bufulaa",
+    "author": "mabufu172",
     "license": "MIT",
     "dependencies": {
         "axios": "^1.8.4",
