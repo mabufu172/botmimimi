@@ -1,6 +1,5 @@
 const CommandBuilder = require('../../classes/CommandBuilder')
 const { execSync } = require("child_process")
-const wrongMessage = require('../../utils/wrongMessage')
 
 module.exports = new CommandBuilder({
     name: 'systemctl',
