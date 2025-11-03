@@ -10,8 +10,6 @@ module.exports = new CommandBuilder({
     reqargs: 1,
     run: async ({ message, args }) => {
 
-        if (!['restart', 'stop'].includes(args[0].toLowerCase())) return wrongMessage('Invalid options')
-
         try {
             await message.channel.send({ content: `Attempting to ${args[0]} systemctl service: ${process.env.SYSTEMCTL_SERVICE_NAME}` })
             execSync(`echo ${process.env.ROOT_PASSWORD} | sudo -S systemctl ${args[0]} ${process.env.SYSTEMCTL_SERVICE_NAME}`)
