@@ -1,5 +1,13 @@
-const { Collection, Client } = require('discord.js')
-const client = new Client({ intents: 32767 })
+const { Collection, Client, GatewayIntentBits } = require('discord.js')
+
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
+	],
+})
 
 client.commands = new Collection()
 client.config = require('./src/json/bot_config.json')
