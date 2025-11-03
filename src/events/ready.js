@@ -1,3 +1,3 @@
 const client = require('../../index')
 
-client.on('ready', () => console.log(`Logged in as ${client.user.displayName}`))
+client.on('clientReady', () => console.log(`Logged in as ${client.user.displayName}`))
