@@ -10,7 +10,7 @@
 ## 🔧 Installation
 1. Clone this repo or Download as zip
 ```bash
-git clone https://github.com/bufulaa/botmimimi.git
+git clone https://github.com/mabufu172/botmimimi.git
 ```
 
 2. Once you're running commands in the bot folder; install the required npm packages:
