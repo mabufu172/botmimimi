@@ -1,4 +1,4 @@
-module.exports = class CustomEmbed extends require("discord.js").MessageEmbed {
+module.exports = class CustomEmbed extends require("discord.js").EmbedBuilder {
 
     constructor (data) { // used to be data = {} or data = new Object()
 
