@@ -15,6 +15,7 @@ client.config = require('./src/json/bot_config.json')
 module.exports = client
 
 require('dotenv').config()
-require('./src/handler')(client)
+require('./src/handler/commands.js')(client)
+require('./src/handler/database.js')
 
 client.login(process.env.TOKEN)
