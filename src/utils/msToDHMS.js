@@ -15,20 +15,34 @@ module.exports = ms => {
 
     if (ms >= msInADay) {
         days = (remaining_ms - (remaining_ms % msInADay)) / msInADay
-        remaining_ms -= days * msInADay
-        clock += days + "d"
-    } else if (ms >= msInAnHour) {
+        if (days) {
+            remaining_ms -= days * msInADay
+            clock += days + "d"
+        }
+    }
+    
+    if (ms >= msInAnHour) {
         hours = (remaining_ms - (remaining_ms % msInAnHour)) / msInAnHour
-        remaining_ms -= hours * msInAnHour
-        clock += hours + "h"
-    } else if (ms >= msInAMinute) {
+        if (hours) {
+            remaining_ms -= hours * msInAnHour
+            clock += hours + "h"
+        }
+    }
+
+    if (ms >= msInAMinute) {
         minutes =  (remaining_ms - (remaining_ms % msInAMinute)) / msInAMinute
-        remaining_ms -= minutes * msInAMinute
-        clock += minutes + "m"
-    } else if (ms >= msInASecond) {
+        if (minutes) {
+            remaining_ms -= minutes * msInAMinute
+            clock += minutes + "m"
+        }
+    }
+
+    if (ms >= msInASecond) {
         seconds = (remaining_ms - (remaining_ms % msInASecond)) / msInASecond
-        remaining_ms -= minutes * msInASecond
-        clock += seconds + "s"
+        if (seconds) {
+            remaining_ms -= minutes * msInASecond
+            clock += seconds + "s"
+        }
     }
 
     return clock
