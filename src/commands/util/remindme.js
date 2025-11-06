@@ -65,8 +65,6 @@ module.exports = new CommandBuilder({
                     const embed = new CustomEmbed()
                     let description = ''
 
-                    console.log(list)
-
                     list.forEach((reminder, index) => {
                         if (index == 0) description += '```'
                         description += `\n[ID: ${reminder.reminderId}] ${reminder.content} `
