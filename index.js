@@ -17,5 +17,6 @@ module.exports = client
 require('dotenv').config()
 require('./src/handler/commands.js')(client)
 require('./src/handler/database.js')
+require('./src/handler/reminder.js')
 
 client.login(process.env.TOKEN)
