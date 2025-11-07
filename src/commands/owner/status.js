@@ -1,6 +1,6 @@
 const CommandBuilder = require('../../classes/CommandBuilder')
 const CustomEmbed = require('../../classes/CustomEmbed')
-const msToDHMS = require('../../utils/msToDHMS')
+const MStoDHMS = require('../../utils/MStoDHMS')
 const { execSync } = require('child_process')
 const os = require('os')
 
@@ -16,7 +16,7 @@ module.exports = new CommandBuilder({
             info.push(`TEMP: ${temp}°C`)
         }
 
-        info.push(`NODE UPTIME: ${msToDHMS(client.uptime)}`)
+        info.push(`NODE UPTIME: ${MStoDHMS(client.uptime)}`)
 
         info.push(`OS: ${process.platform}`)
 
