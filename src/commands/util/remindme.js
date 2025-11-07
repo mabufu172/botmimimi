@@ -1,5 +1,5 @@
 const Database = require('../../handler/database')
-const DHMStoMS = require('../../utils/DHMStoMs')
+const DHMStoMS = require('../../utils/DHMStoMS')
 const MStoDHMS = require('../../utils/MStoDHMS')
 const wrongMessage = require('../../utils/wrongMessage')
 const sendReminder = require('../../handler/reminder')
