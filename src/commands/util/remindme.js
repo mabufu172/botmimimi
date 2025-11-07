@@ -2,6 +2,7 @@ const Database = require('../../handler/database')
 const DHMStoMS = require('../../utils/DHMStoMs')
 const MStoDHMS = require('../../utils/MStoDHMS')
 const wrongMessage = require('../../utils/wrongMessage')
+const sendReminder = require('../../handler/reminder')
 const CommandBuilder = require('../../classes/CommandBuilder')
 const CustomEmbed = require('../../classes/CustomEmbed')
 
@@ -18,18 +19,29 @@ module.exports = new CommandBuilder({
         }
     ],
     run: async ({ message, args }) => {
+
+        const currentTime = new Date().getTime()
+
         switch (args[0]) {
 
             case 'add':
                 if (!args[1] || !args[2]) return wrongMessage()
-
-                Database.prepare(
+                if (!DHMStoMS(args[1])) return message.channel.send({ content: 'Invalid DHMS format'})
+                const prepare = Database.prepare(
                     `
-                    INSERT OR REPLACE INTO reminders (userId, reminderId, expiryDate, content)
-                    VALUES (?, ?, ?, ?)
+                    INSERT OR REPLACE INTO reminders (userId, reminderId, expiryDate, initDate, content)
+                    VALUES (?, ?, ?, ?, ?)
+                    RETURNING *
                     `
                 )
-                .run(message.author.id, require('../../utils/getUniqueID')(99, -3), (new Date().getTime() + DHMStoMS(args[1])).toString(), args.splice(2, args.length).join(' '));
+                const data = prepare.get(message.author.id, require('../../utils/getUniqueID')(99, -3), (currentTime + DHMStoMS(args[1])), currentTime, args.splice(2, args.length).join(' '));
+                setTimeout(() => sendReminder(data), data.expiryDate - currentTime)
+
+                const embed = new CustomEmbed()
+                .setTitle(`Created reminder #${data.reminderId}`)
+                .setDescription(`In \`${MStoDHMS(data.expiryDate - currentTime)}\` you will be reminded about:\`\`\`\n${data.content}\`\`\``)
+                //.setFooter({ text: `You will be reminded in ${MStoDHMS(data.expiryDate - currentTime)}` })
+                message.channel.send({ embeds: [embed] })
 
                 break
 
@@ -48,7 +60,11 @@ module.exports = new CommandBuilder({
                 .run(args[1], message.author.id)
 
                 message.channel.send({ content: attempt.changes > 0 ? 'Removed reminder #' + args[1] : 'Failed to remove reminder'})
-
+                /*
+                PLEASE MAKE A HANDLER IF WE DELETE REMINDER IT WILL REMOVE TIMEOUT
+                possible answer:
+                create another instance in reminders that stores what is the setTimeout ID after its been created a setTimeout
+                */
                 break
 
             case 'list':
@@ -63,14 +79,15 @@ module.exports = new CommandBuilder({
                 if (list.length) {
 
                     const embed = new CustomEmbed()
+                    .setTitle('Active reminders')
                     let description = ''
 
                     list.forEach((reminder, index) => {
                         if (index == 0) description += '```'
                         description += `\n[ID: ${reminder.reminderId}] ${reminder.content} `
 
-                        if (new Date().getTime() <= reminder.expiryDate)
-                            description += `(in ${MStoDHMS(reminder.expiryDate - new Date().getTime())})`
+                        if (currentTime <= reminder.expiryDate)
+                            description += `(in ${MStoDHMS(reminder.expiryDate - currentTime)})`
                         else
                             description += '(already passed)'
 

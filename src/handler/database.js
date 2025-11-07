@@ -7,6 +7,7 @@ Database.exec(
     userId TEXT,
     reminderId TEXT,
     expiryDate TEXT,
+    initDate TEXT,
     content TEXT,
     PRIMARY KEY (userId, reminderId)
     );
