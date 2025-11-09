@@ -1,6 +1,6 @@
 const bs3 = require('better-sqlite3')
 
-const Database = bs3('data.db', { verbose: console.log })
+const Database = bs3('data.db')
 Database.exec(
     `
     CREATE TABLE IF NOT EXISTS reminders (
