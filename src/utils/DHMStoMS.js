@@ -3,6 +3,8 @@ module.exports = DHMS => {
     const signs = DHMS.match(/[dhms]/gi)
     const numbers = DHMS.split(/[dhms]/gi)
 
+    if (!signs || !numbers) return null
+
     let result = 0
 
     signs.forEach((char, index) => {
