@@ -28,7 +28,7 @@ module.exports = new CommandBuilder({
             case 'add':
                 if (!args[1] || !args[2]) return wrongMessage()
                 if (!DHMStoMS(args[1])) return message.channel.send({ content: 'Invalid DHMS format'})
-                if (DHMStoMS >= maxDelay) return message.channel.send({ content: 'As of now I\'m unable to do a reminder above 24.8 days'})
+                if (DHMStoMS(args[1]) >= maxDelay) return message.channel.send({ content: 'As of now I\'m unable to do a reminder above 24.8 days'})
                 const prepare = Database.prepare(
                     `
                     INSERT OR REPLACE INTO reminders (userId, reminderId, expiryDate, initDate, content)
