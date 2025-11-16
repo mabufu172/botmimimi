@@ -5,6 +5,7 @@ const wrongMessage = require('../../utils/wrongMessage')
 const sendReminder = require('../../handler/reminder')
 const CommandBuilder = require('../../classes/CommandBuilder')
 const CustomEmbed = require('../../classes/CustomEmbed')
+const maxDelay = 2147483647
 
 module.exports = new CommandBuilder({
     name: 'remindme',
@@ -27,6 +28,7 @@ module.exports = new CommandBuilder({
             case 'add':
                 if (!args[1] || !args[2]) return wrongMessage()
                 if (!DHMStoMS(args[1])) return message.channel.send({ content: 'Invalid DHMS format'})
+                if (DHMStoMS >= maxDelay) return message.channel.send({ content: 'As of now I\'m unable to do a reminder above 24.8 days'})
                 const prepare = Database.prepare(
                     `
                     INSERT OR REPLACE INTO reminders (userId, reminderId, expiryDate, initDate, content)
